@@ -1,0 +1,95 @@
+{%extends 'user/layout2.html'%}
+{%block title%}
+
+{%endblock%}
+{% block content %}
+
+<style>
+    /* CSS for the Login Form */
+    body {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(190, 35, 24, 0)), url('/static/images/tech11.jpg');
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .login-form {
+        max-width: 400px; /* Increase the width */
+        margin: 0 auto;
+        margin-top: 100px;
+        background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+        padding: 20px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form label {
+        font-weight: bold;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .login-form button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: #007BFF;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-form button:hover {
+        background-color: #0056b3;
+    }
+
+    .login-form input[type="text"]::placeholder,
+    .login-form input[type="password"]::placeholder {
+        color: #888;
+    }
+</style>
+
+<!-- Login Form -->
+<form method="post" action="{{ url_for('login') }}" class="login-form">
+   
+    <div class="text-center text-white">
+        <img src="/static/icon/tech3.png" alt="TECH HUB Icon" class="mb-4 img-fluid icon1" width="150px" height="100px">
+        <h2><strong>Login</strong></h2>
+    </div>
+    {{ form.hidden_tag() }}
+    {%set m = get_flashed_messages(with_categories=True)%}
+    {%if m: %}
+    {%for usr,msg in m%}
+        {%if usr == 'error'%}
+            <div class="alert alert-danger"> {{msg}} </div>
+        {%else%}
+            <div class="alert alert-success"> {{msg}} </div>
+        {%endif%}
+    {%endfor%}
+    {%endif%}
+    <div class="form-group text-white">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control", placeholder="Enter your username or email") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", placeholder="Enter your password") }}
+        
+    </div>
+    {{form.csrf_token}}
+    {{ form.btnsubmit(class="submit-button form-control btn btn-danger border-danger", value="Sign In") }}
+</form>
+
+
+{%endblock%}

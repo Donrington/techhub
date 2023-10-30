@@ -1,0 +1,171 @@
+{%extends 'user/layout.html'%}
+{%block title%}
+
+{%endblock%}
+{%block banner%}
+     <!-- Page Header-->
+     <header class="masthead" style="background-image: url('/static/images/tech9.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                  <div class="site-heading">
+                        <h1>TECH HUB</h1>
+                        <span class="subheading">Innovative Solutions for a Better World</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{%endblock%}
+
+{% block content %}
+<style>
+  .post-preview {
+  background-color: rgba(120, 155, 172, 0.1); /* Adjust the alpha (0.9) for the desired transparency */
+  border-radius: 10px; /* Add rounded corners */
+  padding: 20px; /* Add some padding for better visual appearance */
+}
+
+</style>
+
+<div class="container px-4 px-lg-5">
+    {%set m = get_flashed_messages(with_categories=True)%}
+    {%if m: %}
+    {%for usr,msg in m%}
+        {%if usr == 'error'%}
+            <div class="alert alert-danger"> {{msg}} </div>
+        {%else%}
+            <div class="alert alert-success"> {{msg}} </div>
+        {%endif%}
+    {%endfor%}
+    {%endif%}
+
+
+    <div class="container px-4 py-5" id="custom-cards">
+       <div class="text-center">
+        <h2 class="pb-2 border-bottom ">Discover</h2>
+       </div>
+    
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('/static/images/tech17.jpg');">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Data Analysis Unleashed</h2>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="/static/icon/tech1.png" alt="techhub" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                    <small>Data Analysis</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                    <small>3d</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('/static/images/tech16.jpg');">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Explore the future Of AI</h2>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="/static/icon/tech1.png" alt="techhub" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                    <small>Software Enginnering</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                    <small>4d</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('/static/images/tech14.jpg');">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Unlocking the Power of Machine Learning</h2>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="/static/icon/tech1.png" alt="techhub" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                    <small>Robotics</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                    <small>5d</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-10 col-xl-9">
+            {% for post in post %}
+            <div class="post-preview">
+                <a href="{{ url_for('view_post', post_id=post.id) }}">
+                  
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    <h3 class="post-subtitle">
+                        {{ post.content[:150] }}{% if post.content|length > 150 %}...
+                        <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn btn-outline-dark mt-3">Read more</a>{% endif %}
+                   
+                    </h3>
+                </a>
+                <p class="post-meta">
+                    Posted by <a href="#">{{ post.author.username }}</a> on {{ post.post_date }}
+                </p>
+                <p>Categories: {% for category in post.categories %}
+                    <a href="#">{{ category.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                </p>
+                <p>Tags: {% for tag in post.tags %}
+                    <a href="#">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                </p>
+            </div>
+            <hr class="my-4" />
+            {% endfor %}
+            
+            <!-- Older Posts button -->
+            <div class="text-center">
+                <a href="{{ url_for('userpost', latest_post_index=latest_post_index) }}" class="btn btn-primary" id="load-older-posts">Load Older Posts</a>
+            </div>
+            
+            <!-- Other content here -->
+        </div>
+    </div>
+    
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          let loadButton = document.getElementById('load-older-posts');
+          let latestPostIndex = 0;
+      
+          loadButton.addEventListener('click', function() {
+              // Make an AJAX request to load older posts
+              fetch("/older_posts?latest_post_index=" + latestPostIndex)
+                  .then(response => response.text())
+                  .then(data => {
+                      // Append the loaded posts to the existing list
+                      document.querySelector('.post-list').innerHTML += data;
+                      latestPostIndex += 3;  // Update the latest post index
+                  });
+          });
+      });
+      </script>
+      
+    
+
+{% endblock %}

@@ -1,0 +1,180 @@
+{%extends 'user/layout.html'%}
+{%block title%}
+
+{%endblock%}
+{%block banner%}
+     <!-- Page Header-->
+     <header class="masthead" style="background-image: url('/static/images/tech8.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>POST</h1>
+                        <span class="subheading">Post An Innovative Tech Content Here</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{%endblock%}
+{%block content%}
+<style>
+    .post-preview {
+    background-color: rgba(120, 155, 172, 0.1); /* Adjust the alpha (0.9) for the desired transparency */
+    border-radius: 10px; /* Add rounded corners */
+    padding: 20px; /* Add some padding for better visual appearance */
+}
+
+.offcanvas-body{
+    font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif !important;
+}
+</style>
+        <!-- Post Content-->
+        <article class="mb-4">
+   
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-12 col-lg-10 col-xl-9">
+                            {%set m = get_flashed_messages(with_categories=True)%}
+                            {%if m: %}
+                            {%for usr,msg in m%}
+                                {%if usr == 'error'%}
+                                    <div class="alert alert-danger"> {{msg}} </div>
+                                {%else%}
+                                    <div class="alert alert-success"> {{msg}} </div>
+                                {%endif%}
+                            {%endfor%}
+                            {%endif%}
+                            {% for post in post %}
+                            <div class="post-preview">
+                                <a href="{{ url_for('view_post', post_id=post.id) }}">
+                                    <h2 class="post-title">{{ post.title }}</h2>
+                                    <h3 class="post-subtitle">{{ post.content }}</h3>
+                                </a>
+                                <p class="post-content" style="font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif">{{ post.subcontent }}</p>
+                                <p class="post-meta">
+                                    Posted by <a href="#">{{ post.author.username }}</a> on {{ post.post_date }}
+                                </p>
+                                <p>Categories: {% for category in post.categories %}
+                                    <a href="#">{{ category.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                                </p>
+                                <p>Tags: {% for tag in post.tags %}
+                                    <a href="#">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                                </p>
+                                {% if post.image %}
+                                <img src="{{ url_for('static', filename='images/post/' ~ post.image) }}" alt="Post Image" class="img-fluid" style="max-width: 500px; max-height: 300px">
+                                {% endif %}
+                                
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Comment</button>
+                            </div>
+                            
+                            
+
+                          
+
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div class="offcanvas-header">
+                                <h5 id="offcanvasRightLabel">Post Comments</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <p>Welcome to our new comments section!</p> 
+
+                                <p>Please read and understand The TECH HUB Community Guidelines before participating.</p>
+                                
+                                
+                              
+                                       
+                                               <!-- Your form content goes here -->
+                                               <form method="POST" action="{{ url_for('post_comment', id=post.id) }}">
+                                                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                                                <textarea class="form-control" rows="2" name="comment_content" placeholder="Write a comment"></textarea>
+                                                <div class="mar-top clearfix">
+                                                    <button class="btn btn-sm btn-primary pull-right rounded-pill comment-submit" type="submit">Post Comment</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="sl-item message">
+                                                <div class="sl-left">
+                                                    
+                                                    <div class="comments">
+                                                        {% for comment in post.comments %}  <!-- Use "post.comments" instead of "post.comment" -->
+                                                            <div class="media-block">
+                                                                <a class="media-left" href="#">
+                                                                  
+                                                                    
+                                                                    <!-- Display user's profile picture if available -->
+                                                                    {% if comment.user and comment.user.profile_picture %}
+                                                                        <img src="/static/images/profile/{{ comment.user.profile_picture }}" alt="Profile Picture" class="img-fluid" width="50vh" height="50vh">
+                                                                    {% else %}
+                                                                        <img src="/static/images/profile/default.png" alt="{{ comment.user.username }}" class="profile-image img-fluid" width="200vh" height="200vh">
+                                                                    {% endif %}
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <div class="" >
+                                                                        <a href="#" class="btn-link text-semibold media-heading box-inline"><strong>{{ comment.user.username }}</strong></a>
+                                                                        <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - {{ comment.date_posted.strftime('%H:%M') }}</p>
+                                                                    </div>
+                                                                    <div class="bg-dark text-white rounded"style="border: 1px solid white; padding-left:10px; margin-bottom:20px">
+                                                                        <p>{{ comment.response_text }}</p>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                               
+                            </div>
+                            </div>
+
+                                                            <!-- Add a button to trigger the modal -->
+                             
+                                 <hr class="my-4" />
+                                  <!-- Define the modal -->
+                                
+                                               
+                                               
+                                    
+                           
+                            {% endfor %}
+                            </div>
+                            </div>
+                            </div>
+                        
+               
+    
+            
+            
+        </article>
+
+        <script src="/static/scripts/jquery.js"></script>
+        <script>
+            $(document).on('submit', 'form.comment-submit', function (e) {
+    e.preventDefault(); // Prevent the default form submission
+    var form = $(this);
+    var formData = form.serialize();
+    
+  
+    
+    $.ajax({
+        type: 'POST',
+        url: form.attr('action'), // Update with the correct URL
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+        
+        }
+    });
+});
+
+        </script>
+        {% endblock %}
+ 
+        <!-- Footer-->
+       

@@ -1,0 +1,66 @@
+{%extends 'user/layout.html'%}
+{%block title%}
+
+{%endblock%}
+
+{%block banner%}
+     <!-- Page Header-->
+     <header class="masthead" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url('/static/images/tech03.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2 class="post-title">{{ post.title }}</h2>
+                        <h3 class="post-subtitle">{{ post.content }}</h3>
+                        <p class="post-meta text-white">
+                            Posted by <a href="#" class="text-white" style="text-decoration: none;"><i>{{ post.author.username}}</i></a> on {{ post.post_date }}
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{%endblock%}
+{%block content%}
+
+<style>
+body {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url('/static/images/tech10.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Optional: Fixes the background image */
+}
+
+.post-preview {
+    background-color: rgba(255, 255, 255, 0.9); /* Adjust the alpha (0.9) for the desired transparency */
+    border-radius: 10px; /* Add rounded corners */
+    padding: 20px; /* Add some padding for better visual appearance */
+}
+
+
+</style>
+
+<div class="row gx-4 gx-lg-5 justify-content-center mt-5 pt-5 mb-3 ">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-preview text-center">
+         
+            <p class="post-content" style="font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif">{{ post.subcontent }}</p>
+           
+            <p>Categories: {% for category in post.categories %}
+                <a href="#">{{ category.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+            </p>
+            <p>Tags: {% for tag in post.tags %}
+                <a href="#">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+            </p>
+            <div class="text-center">
+            {% if post.image %}
+            <img src="{{ url_for('static', filename='images/post/' ~ post.image) }}" alt="Post Image" class="img-fluid" style="max-width: 400px;">
+        </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

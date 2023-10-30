@@ -1,0 +1,111 @@
+{%extends 'user/layout2.html'%}
+{%block title%}
+
+{%endblock%}
+{% block content %}
+
+<style>
+    /* Add this CSS to style the registration form */
+    body {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(190, 35, 24, 0)), url('/static/images/tech11.jpg');
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .icon1{
+        width:130px;
+    }
+    .registration-form {
+        max-width: 700px; /* Increase the width */
+        margin: 0 auto;
+        padding: 20px;
+        margin-top: 100px;
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+        border: 1px solid #fff; /* White border */
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .registration-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .registration-form .form-label {
+        font-weight: bold;
+    }
+
+    .registration-form input[type="text"],
+    .registration-form input[type="email"],
+    .registration-form input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #dcdcdc;
+        border-radius: 5px;
+    }
+
+    .registration-form button[type="submit"] {
+        background-color: #020910;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 300px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .registration-form button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+
+<!-- Registration Form -->
+<form method="post" action="{{ url_for('register') }}" class="registration-form" novalidate>
+    <div class="text-center text-white">
+        <img src="/static/icon/tech3.png" alt="TECH HUB Icon" class="mb-4 img-fluid icon1" width="150px" height="100px">
+        <h2><strong>Registration</strong></h2>
+    </div>
+    {{ form.hidden_tag() }}
+    {%if form.username.errors or form.confirm_password.errors%}
+    <div class="alert alert-danger">
+        <p>{{form.username.errors}}</p>
+        <p>{{form.confirm_password.errors}}</p>
+    </div>
+    {%endif%}
+    <div class="form-group text-white">
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-control", placeholder="Enter your first name", autofocus="autofocus") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-control", placeholder="Enter your last name") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control", placeholder="Choose a username") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Enter your email") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", placeholder="Create a password") }}
+    </div>
+    <div class="form-group text-white">
+        {{ form.confirm_password.label(class="form-label") }}
+        {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+    </div>
+
+    <button type="submit" class="btn btn-outline-secondary">Register</button>
+</form>
+
+
+
+
+
+
+
+
+{%endblock%}

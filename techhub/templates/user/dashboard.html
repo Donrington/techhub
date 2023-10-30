@@ -1,0 +1,124 @@
+
+{%extends 'user/dashlayout.html'%}
+{%block title%}
+
+{%endblock%}
+{%block banner%}
+<video id="background-video" autoplay loop muted>
+    <source src="/static/video/vid1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+     <!-- Page Header-->
+
+{%endblock%}
+{% block content %}
+    <div class="container mt-5 pt-5" style="padding-left: 150px;">
+        {%set m = get_flashed_messages(with_categories=True)%}
+        {%if m: %}
+        {%for usr,msg in m%}
+            {%if usr == 'error'%}
+                <div class="alert alert-danger"> {{msg}} </div>
+            {%else%}
+                <div class="alert alert-success"> {{msg}} </div>
+            {%endif%}
+        {%endfor%}
+        {%endif%}
+        <div class="row">
+            <div class="col-md-10">
+                <h1 class="text-white">Welcome, {{ user.username }}</h1>
+
+                <!-- Profile Info -->
+                <div class="card mt-4">
+                    <div class="card-header text">Profile Information</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 text-start">
+                                <!-- Profile information -->
+                                <p><strong>Username:</strong> {{ user.username }}</p>
+                                <p><strong>Email:</strong> {{ user.email }}</p>
+                                <p><strong>First Name:</strong> {{ user.first_name }}</p>
+                                <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+                                <p><strong>Bio:</strong> {{user.bio}}</p>
+                                <!-- Add more profile information here -->
+                                <a href="{{url_for('update_profile')}}" class="btn btn-primary mt-3">Edit Profile</a>
+                            </div>
+                            <div class="col-md-6 pt-5">
+                                {% if user.profile_picture%}
+                                <img src="/static/images/profile/{{ user.profile_picture }}" alt="Profile Picture"  class="img-fluid"width="200vh" height="200vh">
+                            {% else %}
+                                <img src="/static/images/profile/default.png" alt="{{ user.username }}" class="profile-image img-fluid" width="200vh" height="200vh">
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-2">
+                    <a href="{{ url_for('new_post') }}" class="btn btn-primary form-control rounded">Create New Post</a>
+                </div>
+               
+
+
+
+                <!-- Create New Post -->
+ {#      <!-- Add a button to trigger the modal -->
+ <div class="container mt-2">
+    <button type="button" class="btn btn-primary form-control rounded" data-toggle="modal" data-target="#newPostModal">
+        Create New Post
+      </button>
+      
+ </div>
+  <!-- Define the modal -->
+
+  <div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: transparent; border: 2px solid white;">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="newPostModalLabel">Create New Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white">
+                <!-- Your form content goes here -->
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    {{form.csrf_token}}
+                    <div class="form-group pt-3">
+                        {{ form.title.label(class="pb-3", strong_tag=True) }}
+                        {{ form.title(class="form-control") }}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ form.content.label(class="pb-3", strong_tag=True) }}
+                        {{ form.content(class="form-control", rows=6) }}
+                    </div>
+                    <div class="form-group pb-3">
+                        {{ form.image.label() }}
+                        {{ form.image(class="form-control-file btn btn-outline-secondary rounded-pill") }}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ form.categories.label(class="pb-3", strong_tag=True) }}
+                        {{ form.categories(class="form-control", placeholder="Select Categories") }}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ form.tags.label(class="pb-3", strong_tag=True) }}
+                        {{ form.tags(class="form-control", placeholder="Select Tag") }}
+                    </div>
+                  
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </form>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>#}
+
+  
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/dashboard.js"></script> <!-- Custom JavaScript file -->
+    {%endblock%}

@@ -1,0 +1,73 @@
+{%extends 'user/layout.html'%}
+{%block title%}
+
+{%endblock%}
+{%block banner%}
+     <!-- Page Header-->
+     <header class="masthead" style="background-image: url('/static/images/tech3.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>CONTACT US</h1>
+                        <span class="subheading">Innovative Solutions for a Better World</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{%endblock%}
+        {%block content%}
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+             
+            
+            
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        {%set m = get_flashed_messages(with_categories=True)%}
+                        {%if m: %}
+                        {%for usr,msg in m%}
+                            {%if usr == 'error'%}
+                                <div class="alert alert-danger"> {{msg}} </div>
+                            {%else%}
+                                <div class="alert alert-success"> {{msg}} </div>
+                            {%endif%}
+                        {%endfor%}
+                        {%endif%}
+                        <p><strong>Want to get in touch? Fill out the form below to send me a message, and I will get back to you as soon as possible!</strong></p>
+                        <div class="my-5">
+                            <form id="contactForm" method="post" action="{{ url_for('contactus') }}" novalidate>
+                                {{ form.hidden_tag() }}
+                                <div class="form-floating">
+                                    {{ form.name.label(for="name") }}
+                                    {{ form.name(class="form-control", id="name") }}
+                                </div>
+                                <div class="form-floating">
+                                    {{ form.email.label(for="email") }}
+                                    {{ form.email(class="form-control", id="email") }}
+                                </div>
+                                <div class="form-floating">
+                                    {{ form.phone.label(for="phone") }}
+                                    {{ form.phone(class="form-control", id="phone") }}
+                                </div>
+                                <div class="form-floating">
+                                    {{ form.message.label(for="message") }}
+                                    {{ form.message(class="form-control", id="message") }}
+                                </div>
+                                <br />
+                                <div class="text-center text-danger mb-3">
+                                    {% if form.errors %} Please fill out all the fields correctly. {% endif %}
+                                </div>
+                                <button class="btn btn-primary text-uppercase" type="submit">Send</button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        {%endblock%}
+

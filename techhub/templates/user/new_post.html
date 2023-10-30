@@ -1,0 +1,56 @@
+{%extends 'user/dashlayout.html'%}
+{%block title%}
+
+{%endblock%}
+
+{%block banner%}
+<video id="background-video" autoplay loop muted>
+    <source src="/static/video/vid1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+     <!-- Page Header-->
+
+{%endblock%}
+{% block content %}
+
+
+  <div class="container pt-5 mt-5 px-4 px-lg-5">
+    
+    <div class="card mt-4">
+      <div class="card-header text">Create New Post</div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          {{form.csrf_token}}
+          <div class="form-group pt-3">
+              {{ form.title.label(class="pb-3", strong_tag=True) }}
+              {{ form.title(class="form-control") }}
+          </div>
+          <div class="form-group pt-3">
+              {{ form.content.label(class="pb-3", strong_tag=True) }}
+              {{ form.content(class="form-control", rows=3) }}
+          </div>
+          <div class="form-group pt-3">
+            {{ form.subcontent.label(class="pb-3", strong_tag=True) }}
+            {{ form.subcontent(class="form-control", rows=6) }}
+        </div>
+          <div class="form-group pt-3">
+              {{ form.image.label() }}
+              {{ form.image(class="form-control-file btn btn-outline-secondary rounded-pill") }}
+          </div>
+          <div class="form-group pt-3">
+              {{ form.categories.label(class="pb-3", strong_tag=True) }}
+              {{ form.categories(class="form-control", placeholder="Select Category") }}
+          </div>
+          <div class="form-group pt-3">
+              {{ form.tags.label(class="pb-3", strong_tag=True) }}
+              {{ form.tags(class="form-control", placeholder="Enter Tag") }}
+          </div>
+        
+          <button type="submit" class="btn btn-primary mt-3">Create Post</button>
+      </form>
+      
+      </div>
+  </div>
+  </div>
+{% endblock %}
