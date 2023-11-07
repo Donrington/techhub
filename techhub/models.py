@@ -40,7 +40,7 @@ class Comment(db.Model):
     user = db.relationship('User', backref='comments')
 
     # Define the relationship to the Post model
-    post = db.relationship('Post', backref='comments')
+   
 
 # Post entity
 class Post(db.Model):
@@ -54,6 +54,7 @@ class Post(db.Model):
     author = db.relationship('User', backref=db.backref('posts', lazy=True))
     categories = db.relationship('Category', secondary='post_category', backref=db.backref('posts', lazy=True))
     tags = db.relationship('Tag', secondary='post_tag', backref=db.backref('posts', lazy=True))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 # Association table for Post-Category (Many-to-Many)
 post_category = db.Table('post_category',

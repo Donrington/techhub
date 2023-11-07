@@ -66,30 +66,23 @@
                                 {% endif %}
                                 
                             </div>
-                            <div class="mt-2">
-                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Comment</button>
-                            </div>
                             
-                            
+                                    <div class="mt-2">
+                                        <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight_{{ post.id }}" aria-controls="offcanvasRight_{{ post.id }}">Comment</button>
+                                    </div>
 
-                          
+                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight_{{ post.id }}" aria-labelledby="offcanvasRightLabel_{{ post.id }}">
+                                        <div class="offcanvas-header">
+                                            <h5 id="offcanvasRightLabel_{{ post.id }}">Post Comments</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <p>Welcome to the comments section for "{{ post.title }}"</p>
+                                            <p>Please read and understand The TECH HUB Community Guidelines before participating.</p>
 
-                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                            <div class="offcanvas-header">
-                                <h5 id="offcanvasRightLabel">Post Comments</h5>
-                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                            </div>
-                            <div class="offcanvas-body">
-                                <p>Welcome to our new comments section!</p> 
-
-                                <p>Please read and understand The TECH HUB Community Guidelines before participating.</p>
-                                
-                                
-                              
-                                       
-                                               <!-- Your form content goes here -->
-                                               <form method="POST" action="{{ url_for('post_comment', id=post.id) }}">
-                                                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                                            <!-- Your form content goes here -->
+                                            <form method="POST" action="{{ url_for('post_comment', id=post.id) }}">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                 <textarea class="form-control" rows="2" name="comment_content" placeholder="Write a comment"></textarea>
                                                 <div class="mar-top clearfix">
                                                     <button class="btn btn-sm btn-primary pull-right rounded-pill comment-submit" type="submit">Post Comment</button>
@@ -98,31 +91,27 @@
 
                                             <div class="sl-item message">
                                                 <div class="sl-left">
-                                                    
                                                     <div class="comments">
-                                                        {% for comment in post.comments %}  <!-- Use "post.comments" instead of "post.comment" -->
-                                                            <div class="media-block">
-                                                                <a class="media-left" href="#">
-                                                                  
-                                                                    
-                                                                    <!-- Display user's profile picture if available -->
-                                                                    {% if comment.user and comment.user.profile_picture %}
-                                                                        <img src="/static/images/profile/{{ comment.user.profile_picture }}" alt="Profile Picture" class="img-fluid" width="50vh" height="50vh">
-                                                                    {% else %}
-                                                                        <img src="/static/images/profile/default.png" alt="{{ comment.user.username }}" class="profile-image img-fluid" width="200vh" height="200vh">
-                                                                    {% endif %}
-                                                                </a>
-                                                                <div class="media-body">
-                                                                    <div class="" >
-                                                                        <a href="#" class="btn-link text-semibold media-heading box-inline"><strong>{{ comment.user.username }}</strong></a>
-                                                                        <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - {{ comment.date_posted.strftime('%H:%M') }}</p>
-                                                                    </div>
-                                                                    <div class="bg-dark text-white rounded"style="border: 1px solid white; padding-left:10px; margin-bottom:20px">
-                                                                        <p>{{ comment.response_text }}</p>
-                                                                    </div>
-                                                                    
+                                                        {% for comment in post.comments %}
+                                                        <div class="media-block">
+                                                            <a class="media-left" href="#">
+                                                                <!-- Display user's profile picture if available -->
+                                                                {% if comment.user and comment.user.profile_picture %}
+                                                                <img src="/static/images/profile/{{ comment.user.profile_picture }}" alt="Profile Picture" class="img-fluid" width="50vh" height="50vh">
+                                                                {% else %}
+                                                                <img src="/static/images/profile/default.png" alt="{{ comment.user.username }}" class="profile-image img-fluid" width="200vh" height="200vh">
+                                                                {% endif %}
+                                                            </a>
+                                                            <div class="media-body">
+                                                                <div class="">
+                                                                    <a href="#" class="btn-link text-semibold media-heading box-inline"><strong>{{ comment.user.username }}</strong></a>
+                                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - {{ comment.date_posted.strftime('%H:%M') }}</p>
+                                                                </div>
+                                                                <div class="bg-dark text-white rounded" style="border: 1px solid white; padding-left:10px; margin-bottom:20px">
+                                                                    <p>{{ comment.response_text }}</p>
                                                                 </div>
                                                             </div>
+                                                        </div>
                                                         {% endfor %}
                                                     </div>
                                                 </div>

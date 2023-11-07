@@ -15,8 +15,7 @@ from techhub import app,csrf,socketio
 from techhub.forms import *
 from flask_login import login_required
 from techhub.models import db,User,Category,Tag,Post,Contact,Comment
-
-from sqlalchemy import func
+from sqlalchemy import func,desc  
 from datetime import datetime
 
 socketio = SocketIO(app)
@@ -51,32 +50,35 @@ def homepage():
 
 
 
+
 @app.route("/user/post/")
 def userpost():
     user_id = session.get('userlogged')
     user = User.query.get(user_id)
     latest_post_index = int(request.args.get('latest_post_index', 0) or 0)
 
-    
-
     # Fetch the latest three posts, including the author's information
     post = Post.query.order_by(Post.post_date.desc()).offset(latest_post_index).all()
 
-    return render_template("user/post.html", pagename="Post | TECH HUB", post=post, user=user, latest_post_index=latest_post_index)
+    # Fetch comments for each post
+    comment = [post.comments.order_by(desc(Comment.date_posted)).all() for post in post]
+    comment = comment[::1]
 
+    return render_template("user/post.html", pagename="Post | TECH HUB", post=post, comment=comment, user=user, latest_post_index=latest_post_index)
+
+
+ # Import the desc function to order comments in descending order
 
 @app.route('/post/comment/<int:id>', methods=['POST'])
 @login_required
 def post_comment(id):
-    print("Route accessed") 
     # Get the user ID from the session
     user_id = session.get('userlogged')
     user = User.query.get(user_id)
 
-    
     # Get the comment content from the form
     comment_content = request.form.get('comment_content')
-    
+
     post = Post.query.get(id)
     if post:
         new_comment = Comment(user=user, post=post, response_text=comment_content)
@@ -85,8 +87,9 @@ def post_comment(id):
         flash('Your comment has been posted.', 'success')
     else:
         flash('The specified post does not exist.', 'error')
-    
+
     return redirect(url_for('userpost', id=id))  # Redirect to the story page
+
 
 
 
