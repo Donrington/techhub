@@ -2,6 +2,7 @@
     "title": "Clean Blog",
     "name": "startbootstrap-clean-blog",
     "version": "6.0.9",
+    "proxy":"https://localhost:8010",
     "scripts": {
         "build": "npm run clean && npm run build:pug && npm run build:scss && npm run build:scripts && npm run build:assets",
         "build:assets": "node scripts/build-assets.js",
